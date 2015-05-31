@@ -16,7 +16,7 @@ class ZhihuSpider(Spider):
  
         for question in questions:
             item = QuestionItem()
-            item['title'] = question.xpath(
+            item['question'] = question.xpath(
                 'a[@class="question_link"]/text()').extract()[0]
             item['url'] = question.xpath(
                 'a[@class="question_link"]/@href').extract()[0]
