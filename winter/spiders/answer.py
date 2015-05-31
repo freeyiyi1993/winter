@@ -17,12 +17,16 @@ class PostsSpider(Spider):
   start_urls = []
   for r in results:
     start_urls.append("http://www.zhihu.com" + r['url'])
-
+  
   def parse(self, response):
     item = AnswerItem() 
     item['url'] = response.url
     item['question_title'] = response.xpath('//div[@id="zh-question-title"]//a[contains(@href,"question")]/text()').extract()[0]
-    # todo 描述太长被折叠 & 富文本
-    item['desc'] = ' '.join(response.xpath('//div[@id="zh-question-detail"]/div[@class="zm-editable-content"]/descendant::text()').extract())
+    # todo 富文本
+    detail = response.xpath('//div[@id="zh-question-detail"]/textarea/text()')
+    if detail.extract():
+      item['desc'] = detail.extract()[0]
+    else:
+      item['desc'] = ' '.join(response.xpath('//div[@id="zh-question-detail"]/div[@class="zm-editable-content"]/descendant::text()').extract())
     item['answer'] = ' '.join(response.xpath('//div[@id="zh-question-answer-wrap"]//div[@class="zm-item-rich-text"]/descendant::text()').extract())
     yield item

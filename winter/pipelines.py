@@ -20,11 +20,11 @@ class MongoDBPipeline(object):
     # answer
     if 'answer' in item:
       self.answers.update({'url': item['url']}, dict(item), upsert=True)
-      log.msg("Added a documentation to answers!", level=log.DEBUG, spider=spider)
+      log.msg("Added a document to answers!", level=log.DEBUG, spider=spider)
       return item
 		  
     # question
     if 'question' in item:
       self.questions.update({'url': item['url']}, dict(item), upsert=True)
-      log.msg("Added a documentation to questions!", level=log.DEBUG, spider=spider)
+      log.msg("Added a document to questions!", level=log.DEBUG, spider=spider)
       return item
